@@ -17,5 +17,52 @@
 
 ### 实际例子背景介绍(整数旅行器)
     - 我们需要开发一款整数旅行器产品，用户输入想要到达的终点整数，旅行器需要从上一个整数(初始为0)出发，以1为单位，向上或者向下逼近并到达终点整数. 
-    - 文字有点晦涩，让我们把玩把玩[demo] (http://jsbin.com/jojucaqiki/1/edit?html,js,output) 
+    - 文字有点晦涩，让我们把玩把玩 [demo](http://jsbin.com/jojucaqiki/1/edit?html,js,output) 
 
+**在继续探索后面的内容之前，请确保对整数旅行器理解透彻**
+
+### 让我们来看看rxjs是如何思考的
+    - 首先，我们要准确的识别出源头流，在本例中为:input 输入流。随着时间的流逝，用户可以输入多个数值，即源头流发出多个数据。
+    - 其次，我们要准确的识别出目标流，在本例中为:在特定时间内，从上一个数据状态逐步变化为从input拿到的值。
+    - 那么，我们该怎么一步一步的将源头流转化为目标流呢？
+        1: 创建源头流
+        ```js
+           const origin_stream = create_stream_from_input_event();
+        ```
+        2: 源头流会发出每个input事件对象，而我们只关心用户的输入值，因此，转化为发出用户输入数据的流。如下图，我们利用了操作符map达到了这个目的。此时此刻，我们拥有了一个只发出用户输入数据的中间流。
+        ```js
+            const with_input_value_stream = orign_stream.map(event => event.value);
+        ```
+        3: 只拿到用户的数据不行，我们还需要继续前进。当我们拿到用户数据的输入数据时，我们需要产出从上一个数据状态到用户输入值的所有整数，才能完成整数旅行器的职能。很明显，我们需要针对每个用户输入值创建一个从上一个状态到用户输入值的流，
+            3.1 从哪开始呢？首先要引入时间，因为数据是在不同的时间发出。这个流代表从现在开始，每隔20ms发出从0开始自增的数据。
+            ```js
+                const timer_stream = create_stream_from_interval_timer(0, 20)
+            ```
+            3.2 等等，我们不是要从上一个状态开始嘛？这个流从0开始，肯定不对啊。别着急，转化下即可。将流转换为从上个数据状态开始。
+            ```js
+                const timer_stream_start_with_old_state = 
+                    timer_stream.startwith(old_state);
+            ```
+            3.3 到目前为止，我们得到了发出从一个数据状态开始的递增流，这还不满足的我们的需求，我们希望得到一个发出从上一个状态到用户输入的流，怎么办？很简单，我们只需要得到方向(正一活着负一)，然后运用累加函数即可。依然还是流变化。
+            ```js
+                const timer_stream_start_with_old_state_with_direction = timer_stream_start_with_old_state.mapto(() => start > end ? -1 : 1)
+
+                const timer_stream_start_with_old_state_with_direction_reducer = timer_stream_start_with_old_state_with_direction.reducer((dir, accu) => dir + accu)
+            ```
+            3.4 这样，我们就得到了一个从上一个数据状态，以-1或者1为方向，一直前进不停止的数据流，还差一点点，我们需要数据流要停止，怎么办？很简单，还是进行变换，流变化。通过给上面的流，添加 takeutil 操作符，就可以了。
+            ```js
+                const finnal_stream = timer_stream_start_with_old_state_with_direction_reducer.takeutil(value => value == input);
+            ```
+
+
+### 结论
+
+ 这篇文章的目的只有一个：让大家对 rxjs 的方法论： 流 + 变化（操作符），有一定的感官认识。
+
+ 在大家对 rxjs 的方法论，有一定的感官认识之后，后续的文章将会深入 rxjs 的内部。
+
+
+ # one more thing
+
+     http://cn.rx.js.org/， rxjs 中文社区成立之后做的第一个重要事情，rxjs 中文官方api 的上线，希望得到大家的支持，我们一起努力，
+     rx evething.
