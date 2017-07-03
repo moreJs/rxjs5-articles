@@ -8,11 +8,14 @@
 - react给我们做了一个很好的榜样，view = f(state), 即针对不同的输入state，返回不同的 view。因此，当我们用 react 解决 view 层的问题时，时时刻刻都在想的是如何抽象 state。
 - 同样的，当我们开始用rxjs的视角在数据层建模时，我们需要遵循的真理是:
 ```js
-   result_stream = origin_stream.tranform1()
-                                .tranform2()
+   result_stream = origin_stream.transform1()
+                                .transform2()
                                 ...;
 ```
 - 稍微简单的介绍下，由rxjs构造的世界里基本单元是 stream(流)，流是一个二维的概念，除了值之外自动的帮你添加了时间的维度，即 stream_value = stream(stream_time)。tranform1 和 tranform2 被称为操作符，将一个流转化为另外一个流，即 new_stream = operator(old_stream)。所以，上面那一段不太好理解的代码就可以转化为文字：当我们使用rxjs给数据层建模时，实际上就是经历了：从初始流不断转化或者组合变成目标流的样子。
 - 是不是有点难以理解，没关系下文我们会通过一个实际的例子将这种方法论进行详细的说明。
 
-### 实际例子背景介绍
+### 实际例子背景介绍(整数旅行器)
+    - 我们需要开发一款整数旅行器产品，用户输入想要到达的终点整数，旅行器需要从上一个整数(初始为0)出发，以1为单位，向上或者向下逼近并到达终点整数. 
+    - 文字有点晦涩，让我们把玩把玩[demo] (http://jsbin.com/jojucaqiki/1/edit?html,js,output) 
+
