@@ -6,9 +6,9 @@
   
   [github](https://github.com/moroshko/rxviz), [onlineDemo](https://github.com/moroshko/rxviz)
 
-    <p>
-        <img src="./image/rxviz.gif" width="50%">
-    </p>
+<p>
+    <img src="./image/rxviz.gif" width="50%">
+</p>
   这款可视化工具是由 facebook 的 Misha Moroshko 开发。
 
   rxviz 可以简洁的可视化给定的 Observable. 你提供的流式代码会被执行，如果最后一个表达式是 Observable， 一个
