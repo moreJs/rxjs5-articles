@@ -33,6 +33,11 @@
   这个库不得不推荐啊，这是响应式大神 staltz 的作品。和前面库最大的不同是, Observable 的每个 item 是可交互的，你可以拖拽，然后整个 Observable 都会做出相应的改变。
 
 
+
 > 结论:我们可以在学习 Rxjs 的时候，结合这些可视化的，相信会达到事半功倍的效果。
 
+
+
+> one more thing
+> [rxjs中文社区](http://cn.rx.js.org/)成立之后做的第一个重要事情，rxjs 中文官方api 的上线，希望得到大家的支持，我们一起努力，rx evething.
 
