@@ -21,12 +21,8 @@
     <p>
         <img src="./image/rxviz.gif" width="100%">
     </p>
-
-<<<<<<< HEAD
-  case 2: 针对复杂高阶 Observable:
-=======
+    
    case 2: 针对复杂高阶 Observable:
->>>>>>> 3ea70cb7528753f6e063bacf54e6a09482dd02e2
 
   ```js
     Rx.Observable
