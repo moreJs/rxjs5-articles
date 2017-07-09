@@ -11,32 +11,31 @@
   这款可视化工具是由 facebook 的 Misha Moroshko 开发。rxviz 可以简洁的可视化给定的 Observable. 你提供的 Rxjs 代码会被执行，如果最后一个表达式是 Observable， 一个带着动画的可视化会出现在眼前。同时，你可以通过修改时间窗口来控制动画的速率，也可以将可视化 svg 复制下来用于你想用的地方，你同样可以将可视化分享给其他人。
 
    
-   case 1: 针对简单 Observable:
-
-    ```js
+  case 1: 针对简单 Observable:
+  ```js
     Rx.Observable
       .interval(1000)
       .take(4)
-    ```
+  ```
   可视化效果为：
     <p>
         <img src="./image/rxviz.gif" width="100%">
     </p>
 
-   case 2: 针对复杂高阶 Observable:
+  case 2: 针对复杂高阶 Observable:
 
-    ```js
+  ```js
     Rx.Observable
       .interval(1000)
       .groupBy(n => n % 2)
-    ```
+  ```
 
   可视化效果为：
     <p>
         <img src="./image/rxviz.gif" width="100%">
     </p>
 
-  还可以可视化自定义的操作符等等。
+  还可以可视化自定义的操作符等等，本文就不一一赘述了，大家可以去主页自己把玩。
 
   这个项目第一个 commit 是6月7号提交的，到现在刚过一个月多点，截止目前，47个 commit, 所以它还是一个很年轻的库，难免还不太完善。但是我们有理由相信，随着时间的流逝和社区的努力，这个库会越来越完善。
   
